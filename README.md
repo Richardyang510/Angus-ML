@@ -12,3 +12,7 @@ https://titanic-249c1.firebaseapp.com/
 Uses decision trees and psychologial analysis to beat you. Play games best out of three against the AI.
 
 https://rock-paper-scissors-a37d9.firebaseapp.com/
+
+# Neural Network Demo
+
+Basic implementation of a neural network with 1 hidden layer. Number of neurons are flexible and can be changed for the task at hand.
