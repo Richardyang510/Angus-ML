@@ -1,0 +1,231 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<script src="math.js" type="text/javascript"></script>
+<style type="text/css">
+* {margin: 0; padding: 0;}
+#top {height: 100%; width:100%; font-size: 0;}
+#topleft, #topright {display: inline-block; *display: inline; zoom: 1; vertical-align: top; font-size: 12px;}
+#topleft {width: 50%; background: White;}
+#topright {width: 50%; background: White;}
+</style>
+
+<style type="text/css">
+* {margin: 0; padding: 0;}
+#container {height: 100%; width:100%; font-size: 0;}
+#left, #middle, #right {display: inline-block; *display: inline; zoom: 1; vertical-align: top; font-size: 12px;}
+#left {width: 33%; background: blue;}
+#middle {width: 34%; background: green;}
+#right {width: 33%; background: yellow;}
+</style>
+
+
+<style>
+    h2 {
+        margin-right: 150px;
+        margin-left: 150px;
+        text-align: center;
+        color: black;
+    }
+
+    button {
+        font-size: 100px;
+        margin: auto;
+        display: block;
+        border: none;
+    }
+
+    body {
+        background-color: white;
+    }
+
+
+</style>
+
+<div id="top">
+<div id="topleft">
+<h2 id = "h" > User Win: 0 </h2>
+<h2 id = "g" > Comp Win: 0 </h2>
+<h2 id = "k" > Both Tie: 0 </h2>
+<h2 id = "j" > User Choice: NULL </h2>
+<h2 id = "i" > Comp Choice: NULL </h2>
+<h2 id = "n" > Round Result: NULL </h2>
+</div>
+
+<div id="topright">
+<h2> Last Round Victor</h2>
+<h2 id = "winner1"> #1: </h2> 
+<h2 id = "winner2"> #2: </h2>
+<h2 id = "winner3"> #3: </h2>
+<h2 id = "winner4"> #4: </h2>
+<h2 id = "winner5"> #5: </h2>
+</div>
+</div>
+
+
+<div id="container">
+
+<div id = "left"> <h2> Rock </h2>
+<button style="background-color:transparent;" type = "button" onclick = "learningFunction(this)" id = 1>
+    <img id = "2" src = "Rock_left.gif" style="width: 200px;height:200px;"> </div>
+	
+<div id = "middle"> <h2> Paper </h2>
+<button style = "background-color:transparent;" type = "button" onclick = "learningFunction(this)" id = 2>
+    <img id = "3" src = "Paper_left.gif" style = "width:200px; height:200px;"> </div>
+
+<div id = "right"> <h2> Scissors </h2>
+<button style = "background-color:transparent;" type = "button" onclick = "learningFunction(this)" id = 3>
+    <img id = "4" src = "Scissors_left.gif" style = "width:200px; height:200px;"> </div> 
+</div>
+			<script>
+                var win = 0;
+                var lose = 0;
+                var tie = 0;// 
+               
+                var ifWin = Math.floor (Math.random() * 3) + 1;// the number you add to last computer output
+                var ifLose = Math.floor (Math.random() * 3) + 1;
+                var ifTie = Math.floor (Math.random() * 3) + 1;
+				var count = 0;
+				var roundResult = " ";
+				var w1 = " ";
+				var w2 = " ";
+				var w3 = " ";
+				var w4 = " ";
+				var w5 = " ";
+				var winTotal = 0;
+				var winNum = 0; //number of wins
+				var loseTotal = 0;
+				var loseNum = 0; // number of losses
+				var tieTotal = 0;
+				var tieNum = 0; // number of ties
+				var lastResult = 1;//last user input 
+				var lastWinner = "User";//0 = comp win, 1 = user win, 2 = tie
+                var userInput = "";
+
+                function learningFunction(thing) {
+                    var comp = "rock";
+					var rps = 1;
+					if (lastWinner == "Comp"){// computer won, should update
+						winNum++;
+						winTotal+=lastResult;
+						//console.log("WinTotal: "+winTotal);
+						//console.log("WinNum: "+winNum);
+						ifWin = math.round(winTotal/winNum);
+						//ifWin = math.round((math.abs(thing.id-lastResult)+(ifWin*(totalUI-1)))/totalUI);
+						rps = math.mod(lastResult + ifWin, 3);
+						console.log("ifWin: "+ifWin);
+					}else if (lastWinner == "User"){
+						loseNum++;
+						loseTotal+=lastResult;
+						ifLose = math.round(loseTotal/loseNum);
+                        //console.log("LoseTotal: "+loseTotal);
+                        //console.log("LoseNum: "+loseNum);
+						//ifLose = math.round((math.abs(thing.id-lastResult)+(ifLose*(totalUI-1)))/totalUI);
+						rps = math.mod(lastResult + ifLose, 3);
+						console.log("ifLose: "+ifLose);
+					}else if (lastWinner == "Tie"){
+						tieNum++;
+						tieTotal+=lastResult;
+						ifTie = math.round(tieTotal/tieNum);
+                        //console.log("TieTotal: "+tieTotal);
+                        //console.log("TieNum: "+tieNum);
+						//ifTie = math.round((math.abs(thing.id-lastResult)+(ifTie*(totalUI-1)))/totalUI);
+						rps = math.mod(lastResult + ifTie, 3);
+                        console.log("ifTie: "+ifTie);
+					}
+                    if (thing.id == 1) {
+					    userInput = userInput.concat("R");
+                        var user = "rock";
+                        if (rps == 1) {
+                            tie++;
+                            comp = "rock";
+							lastWinner = "Tie";
+                        } else if (rps == 2) {
+                            lose ++;
+                            comp = "paper";
+							lastWinner = "Comp";
+                        } else {
+                            win++;
+                            comp = "scissors";
+							lastWinner = "User";
+                        }
+						count++;
+                    } else if (thing.id == 2) {
+                        userInput = userInput.concat("P");
+                        var user = "paper";
+                        //var rps = Math.floor (Math.random() * 3) + 1;
+                        if (rps == 1) {
+                            win ++;
+                            comp = "rock";
+							lastWinner = "User";
+                        } else if (rps == 2) {
+                            tie++;
+                            comp = "paper";
+							lastWinner = "Tie";
+                        } else {
+                            lose ++;
+                            comp = "scissors";
+							lastWinner = "Comp";
+                        }
+						count++;
+                    } else if (thing.id == 3) {
+                        userInput = userInput.concat("S");
+                        var user = "scissors";
+                        //var rps = Math.floor (Math.random() * 3) + 1;
+                        if (rps == 1) {
+                            lose ++;
+                            comp = "rock";
+							lastWinner = "Comp";
+                        } else if (rps == 2) {
+                            win ++;
+                            comp = "paper";
+							lastWinner = "User";
+                        } else {
+                            tie++;
+                            comp = "scissors";
+							lastWinner = "Tie";
+                        }
+						count++;
+                    }
+					lastResult = rps;
+					console.log(lastResult);
+					
+					if (count == 3){
+						w5 = w4;
+						w4 = w3;
+						w3 = w2;
+						w2 = w1;
+						if (win>lose){
+							roundResult = "User Win!";
+						}else if (lose>win){
+							roundResult = "Comp Win!";
+						}else{
+							roundResult = "Tie";
+						}
+						w1 = roundResult;
+						count = 0;
+						win = 0;
+						lose = 0;
+						tie = 0;
+					}
+					
+                    document.getElementById ("h").innerHTML = "User Win: " + win;
+                    document.getElementById ("g").innerHTML = "Comp Win: " + lose;
+                    document.getElementById ("k").innerHTML = "Both Tie: " + tie;
+                    document.getElementById ("j").innerHTML = "User Choice: " + user;
+                    document.getElementById ("i").innerHTML = "Comp Choice: " + comp;
+					document.getElementById ("n").innerHTML = "Round Result: " +roundResult;
+					document.getElementById ("winner5").innerHTML = "#5: " + w5;
+					document.getElementById ("winner4").innerHTML = "#4: " + w4;
+					document.getElementById ("winner3").innerHTML = "#3: " + w3;
+					document.getElementById ("winner2").innerHTML = "#2: " + w2;
+					document.getElementById ("winner1").innerHTML = "#1: " + w1;
+					
+
+                }
+				function superSaiyan(thing){
+					
+				}
+            </script>
+
+</body>
